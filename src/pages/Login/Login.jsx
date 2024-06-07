@@ -1,7 +1,48 @@
+import { AuthContext } from "providers/AuthProvider";
+import { useContext } from "react";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+
+    const { signIn } = useContext(AuthContext)
+    const location = useLocation()
+    const navigate = useNavigate()
+
+    const handleLogin = e => {
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        console.log(email, password);
+
+        signIn(email, password)
+            .then(result => {
+                console.log(result.user)
+                Swal.fire({
+                    title: "User Login Successfully",
+                    showClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeInUp
+                        animate__faster
+                      `
+                    },
+                    hideClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeOutDown
+                        animate__faster
+                      `
+                    }
+                });
+                navigate('/')
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     return (
         <div>
 
@@ -43,7 +84,7 @@ const Login = () => {
                                     Facebook Login
                                 </button>
                             </div>
-                            <p className='text-center text-blue-400 font-bold pb-6'>New Here? <Link to={'/signup'}>Create a New Account</Link></p>
+                            <p className='text-center text-blue-400 font-semibold pb-6'>New Here? <Link className="underline" to={'/signup'}>Create a New Account</Link></p>
 
                         </div>
                     </div>
