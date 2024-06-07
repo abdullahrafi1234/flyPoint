@@ -1,12 +1,15 @@
-import { AuthContext } from "providers/AuthProvider";
 import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+// import Swal from 'sweetalert2'
+import toast from 'react-hot-toast';
 
 const Login = () => {
+    const notify = () => toast.success('Successfully Logged In');
 
     const { signIn } = useContext(AuthContext)
-    const location = useLocation()
+    // const location = useLocation()
     const navigate = useNavigate()
 
     const handleLogin = e => {
@@ -19,23 +22,7 @@ const Login = () => {
         signIn(email, password)
             .then(result => {
                 console.log(result.user)
-                Swal.fire({
-                    title: "User Login Successfully",
-                    showClass: {
-                        popup: `
-                        animate__animated
-                        animate__fadeInUp
-                        animate__faster
-                      `
-                    },
-                    hideClass: {
-                        popup: `
-                        animate__animated
-                        animate__fadeOutDown
-                        animate__faster
-                      `
-                    }
-                });
+                toast.success('Successfully Logged In')
                 navigate('/')
             })
             .catch(error => {
@@ -51,7 +38,7 @@ const Login = () => {
                     <div className="rounded-lg w-96 shadow-2xl bg-base-100">
                         <h3 className="px-10 text-3xl font-bold text-start mb-2 mt-8">Login</h3>
                         <p className="px-10">Enter your email & password below to login to your account</p>
-                        <form className="card-body">
+                        <form onSubmit={handleLogin} className="card-body">
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Email</span>
@@ -73,9 +60,11 @@ const Login = () => {
                         <div className="px-10 space-y-2">
                             <div className="divider">or</div>
                             <div>
-                                <button className="btn w-full hover:bg-blue-200 font-bold">
+                                <button onClick={notify} className="btn w-full hover:bg-blue-200 font-bold">
+
                                     <FaGoogle className="text-lg"></FaGoogle>
                                     Google Login
+                                    {/* <Toaster reverseOrder={false} position="top-center" /> */}
                                 </button>
                             </div>
                             <div>
