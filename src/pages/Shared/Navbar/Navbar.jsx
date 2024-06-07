@@ -10,7 +10,7 @@ const Navbar = () => {
             <Link to={'/notification'}>
                 <button className="flex items-center">
                     <IoMdNotificationsOutline className="text-2xl"></IoMdNotificationsOutline>
-                    <div className="badge badge-secondary">00</div>
+                    <div className=" badge badge-secondary">0</div>
                 </button>
             </Link>
         </li>
