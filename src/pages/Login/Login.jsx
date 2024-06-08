@@ -64,7 +64,7 @@ const Login = () => {
                                     <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                 </label>
                             </div>
-                            <button className="btn btn-primary w-full font-bold">Login</button>
+                            <button className="btn btn-primary hover:bg-blue-400 hover:border-none w-full font-bold">Login</button>
 
                         </form>
                         <div className="px-10 space-y-2">

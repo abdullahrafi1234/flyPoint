@@ -13,12 +13,12 @@ const Navbar = () => {
     }
 
     const navOptions = <>
-        <li><NavLink className={({ isActive }) => isActive ? 'btn btn-outline border-blue-600 hover:bg-blue-400 font-semibold text-blue-700' : 'btn font-medium btn-ghost'} to={'/'}>Home</NavLink></li>
+        <li><NavLink className={({ isActive }) => isActive ? 'btn btn-outline border-blue-600 hover:bg-blue-400 hover:border-none  font-semibold text-blue-700' : 'btn font-medium btn-ghost'} to={'/'}>Home</NavLink></li>
         {
-            !user ? <li><NavLink className={({ isActive }) => isActive ? 'btn btn-outline border-blue-600 hover:bg-blue-400 font-semibold text-blue-700' : 'btn font-medium btn-ghost'} to={'/signup'}>Sign Up</NavLink></li> : ''
+            !user ? <li><NavLink className={({ isActive }) => isActive ? 'btn btn-outline border-blue-600 hover:bg-blue-400 hover:border-none  font-semibold text-blue-700' : 'btn font-medium btn-ghost'} to={'/signup'}>Sign Up</NavLink></li> : ''
         }
         <li>
-            <NavLink className={({ isActive }) => isActive ? 'btn btn-outline border-blue-600 hover:bg-blue-400 font-semibold text-blue-700' : 'btn font-medium btn-ghost'} to={'/notification'}>
+            <NavLink className={({ isActive }) => isActive ? 'btn btn-outline border-blue-600 hover:bg-blue-400 hover:border-none  font-semibold text-blue-700' : 'btn font-medium btn-ghost'} to={'/notification'}>
                 <button className="flex items-center">
                     <IoMdNotificationsOutline className="text-2xl"></IoMdNotificationsOutline>
                     <div className=" badge badge-secondary">0</div>
@@ -72,7 +72,7 @@ const Navbar = () => {
                         </div>
                         :
                         <div className="">
-                            <Link className="btn rounded-xl bg-blue-600 text-white border-none" to={'/login'}>Login</Link>
+                            <Link className="btn rounded-xl bg-blue-600 hover:bg-blue-400 hover:border-none text-white border-none" to={'/login'}>Login</Link>
                         </div>
                 }
             </div>
