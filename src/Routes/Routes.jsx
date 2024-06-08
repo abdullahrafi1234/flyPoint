@@ -8,6 +8,7 @@ import Signup from "../pages/Signup/Signup";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Notification from "../pages/Notification/Notification";
 import PrivateRoute from "./PrivateRoute";
+import Dashboard from "../layout/Dashboard/Dashboard";
 
 
 
@@ -37,6 +38,11 @@ const router = createBrowserRouter([
       }
     ]
   },
+  //dashboard
+  {
+    path: 'dashboard',
+    element: <Dashboard></Dashboard>
+  }
 ]);
 
 export default router
