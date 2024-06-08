@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-// import Swal from 'sweetalert2'
 import toast from 'react-hot-toast';
 
 const Login = () => {
@@ -44,7 +43,7 @@ const Login = () => {
     return (
         <div>
 
-            <div className=" min-h-screen py-16 bg-blue-200">
+            <div className=" min-h-screen py-16 ">
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <div className="rounded-lg w-96 shadow-2xl bg-base-100">
                         <h3 className="px-10 text-3xl font-bold text-start mb-2 mt-8">Login</h3>

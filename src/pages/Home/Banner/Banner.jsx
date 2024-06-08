@@ -2,10 +2,9 @@
 import './Banner.css'
 
 
-
 const Banner = () => {
     return (
-        <div className="max-w-screen-full mb-16 banner text-start ">
+        <div className="max-w-screen-full rounded-lg mt-8 mb-16 banner text-start ">
             <div className="hero text-blue-500 rounded-3xl">
                         <div className="hero-content lg:h-[600px] md:h-[400px]  flex-col flex md:flex-row-reverse lg:flex-row-reverse ">
                             {/* <div className="lg:ml-36">
