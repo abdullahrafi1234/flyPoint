@@ -6,9 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 
 const Login = () => {
-    const notify = () => toast.success('Successfully Logged In');
 
-    const { signIn } = useContext(AuthContext)
+    const { signIn, googleLogin } = useContext(AuthContext)
     // const location = useLocation()
     const navigate = useNavigate()
 
@@ -30,6 +29,18 @@ const Login = () => {
             })
     }
 
+    const handleGoogleLogin = () => {
+        googleLogin()
+            .then(result => {
+                console.log(result.user)
+                toast.success('Successfully Logged In');
+                navigate('/')
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+
     return (
         <div>
 
@@ -43,13 +54,13 @@ const Login = () => {
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input type="email" placeholder="flypoint@example.com" className="input input-bordered" required />
+                                <input type="email" name="email" placeholder="flypoint@example.com" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input type="password" placeholder="Your Password" className="input input-bordered" required />
+                                <input type="password" name="password" placeholder="Your Password" className="input input-bordered" required />
                                 <label className="label">
                                     <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                 </label>
@@ -60,7 +71,7 @@ const Login = () => {
                         <div className="px-10 space-y-2">
                             <div className="divider">or</div>
                             <div>
-                                <button onClick={notify} className="btn w-full hover:bg-blue-200 font-bold">
+                                <button  onClick={handleGoogleLogin} className="btn w-full hover:bg-blue-200 font-bold">
 
                                     <FaGoogle className="text-lg"></FaGoogle>
                                     Google Login

@@ -1,7 +1,55 @@
-
-import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { AuthContext } from "../../providers/AuthProvider";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Signup = () => {
+
+    // const axiosPublic = useAxiosPublic()
+    const { createUser, updateUserProfile } = useContext(AuthContext)
+    const navigate = useNavigate()
+
+    const { register, handleSubmit, reset, formState: { errors }, } = useForm()
+
+    const onSubmit = (data) => {
+        // console.log(data)
+        createUser(data.email, data.password)
+            .then(result => {
+                console.log(result.user)
+                updateUserProfile(data.name, data.photo)
+                    .then(() => {
+                        reset()
+                        toast.success('User Created Successfully')
+                        // console.log('user profile info updated')
+                        // const userInfo = {
+                        //     name: data.name,
+                        //     email: data.email
+                        // }
+                        // axiosPublic.post('/users', userInfo)
+                        //     .then(res => {
+                        //         if (res.data.insertedId) {
+                        //             reset()
+                        //             Swal.fire({
+                        //                 position: "top-end",
+                        //                 icon: "success",
+                        //                 title: "User Created Successfully",
+                        //                 showConfirmButton: false,
+                        //                 timer: 1500
+                        //             });
+                        //             navigate('/')
+                        //         }
+                        //     })
+                        navigate('/')
+
+                    })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+
     return (
         <div>
 
@@ -11,41 +59,48 @@ const Signup = () => {
                         <h3 className="px-10 text-3xl font-bold text-start mb-2 mt-8">Sign Up</h3>
                         <p className="px-10">Enter your information to create an account
                         </p>
-                        <form className="card-body">
+                        <form onSubmit={handleSubmit(onSubmit)} className="card-body">
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Name</span>
                                 </label>
-                                <input type="text" placeholder="Fly Point" className="input input-bordered" required />
+                                <input {...register('name', { required: true })} type="text" placeholder="Fly Point" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Photo URL</span>
                                 </label>
-                                <input type="text" placeholder="https://example.com/image.jpg" className="input input-bordered" required />
+                                <input {...register('photo', { required: true })} type="text" placeholder="https://example.com/image.jpg" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Register As</span>
                                 </label>
-                                <select className="select select-bordered join-item">
+                                <select {...register('register', { required: true })} className="select select-bordered join-item">
                                     <option disabled selected>Please Select</option>
                                     <option>User</option>
                                     <option>Delivery Man</option>
                                 </select>
                             </div>
-                            
+
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input type="email" placeholder="flypoint@example.com" className="input input-bordered" required />
+                                <input {...register('email', { required: true })} type="email" placeholder="flypoint@example.com" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input type="password" placeholder="Your Password" className="input input-bordered" required />
+                                <input {...register('password', {
+                                    required: true,
+                                    minLength: 6,
+                                    maxLength: 20,
+                                })} type="password" placeholder="Your Password" name="password" className="input input-bordered" />
+                                {errors.password?.type === 'required' && <span className="text-red-600">Password is Required</span>}
+                                {errors.password?.type === 'maxLength' && <span className="text-red-600">Password must be under 20 Character</span>}
+                                {errors.password?.type === 'minLength' && <span className="text-red-600">Password must be 6 Character</span>}
                             </div>
                             <button className="btn btn-primary w-full font-bold">Create an Account</button>
 
