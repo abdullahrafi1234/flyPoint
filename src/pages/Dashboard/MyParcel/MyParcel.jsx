@@ -1,8 +1,10 @@
+import useParcel from "../../../Hooks/useParcel";
 
 const MyParcel = () => {
+    const [parcel] = useParcel()
     return (
         <div>
-            <h2>this is my parcxle page4</h2>
+            <h3>this is my parcel{parcel.length} </h3>
         </div>
     );
 };
