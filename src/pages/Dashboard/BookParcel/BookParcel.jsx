@@ -1,7 +1,7 @@
 import useAuth from '../../../Hooks/useAuth'
 import { useForm } from "react-hook-form";
 // import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
 
 
 
@@ -9,11 +9,39 @@ const BookParcel = () => {
 
     // const axiosPublic = useAxiosPublic()
     const { user } = useAuth()
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     const { register, handleSubmit, reset, formState: { errors }, } = useForm()
     const onSubmit = (data) => {
         console.log(data)
+        let totalPrice = 0;
+        if (data.weight == 1) {
+            totalPrice = 50 + parseInt(data.price)
+        }
+        if (data.weight == 2) {
+            totalPrice = 100 + parseInt(data.price)
+        }
+        if (data.weight > 2) {
+            totalPrice = 150 + parseInt(data.price)
+        }
+        console.log(totalPrice)
+        
+        const bookParcel = {
+            name: user.displayName,
+            email: user.email,
+            phone: data.phone,
+            type: data.type,
+            weight: data.weight,
+            receiversName: data.receiversName,
+            receiversPhone: data.receiversPhone,
+            deliveryAddress: data.deliveryAddress,
+            deliveryDate: data.deliveryDate,
+            latitude: data.latitude,
+            longitude: data.longitude,
+            price: totalPrice,
+            status: 'Pending'
+        }
+        console.log(bookParcel)
         // axiosPublic.post('/users', userInfo)
         //     .then(res => {
         //         if (res.data.insertedId) {
@@ -44,14 +72,14 @@ const BookParcel = () => {
                                 <label className="label">
                                     <span className="label-text">Your Name</span>
                                 </label>
-                                <input readOnly  type="text" placeholder={user?.displayName} className="input input-bordered" required />
+                                <input readOnly type="text" placeholder={user?.displayName} className="input input-bordered" required />
                             </div>
                             {/* email */}
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input readOnly  type="email" placeholder={user?.email} className="input input-bordered" required />
+                                <input readOnly type="email" placeholder={user?.email} className="input input-bordered" required />
                             </div>
                             {/* phone number */}
                             <div className="form-control">
@@ -70,23 +98,23 @@ const BookParcel = () => {
                             {/* parcel weight */}
                             <div className="form-control">
                                 <label className="label">
-                                    <span className="label-text">Parcel Weight</span>
+                                    <span className="label-text">Parcel Weight (KG)</span>
                                 </label>
-                                <input {...register('weight', { required: true })} type="number" placeholder="Parcel Weight" className="input input-bordered" required />
+                                <input {...register('weight', { required: true })} type="text" placeholder="Parcel Weight" className="input input-bordered" required />
                             </div>
                             {/* receiver name */}
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Receivers Name</span>
                                 </label>
-                                <input {...register('receiverName', { required: true })} type="text" placeholder="Receiver’s Name" className="input input-bordered" required />
+                                <input {...register('receiversName', { required: true })} type="text" placeholder="Receiver’s Name" className="input input-bordered" required />
                             </div>
                             {/* Receiver’s Phone number */}
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Receivers Phone Number</span>
                                 </label>
-                                <input {...register('receiverPhone', { required: true })} type="number" placeholder="0123456789*" className="input input-bordered" required />
+                                <input {...register('receiversPhone', { required: true })} type="text" placeholder="0123456789*" className="input input-bordered" required />
                             </div>
                             {/* parcel delivery address */}
                             <div className="form-control">
