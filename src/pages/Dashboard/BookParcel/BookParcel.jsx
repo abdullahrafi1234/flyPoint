@@ -1,35 +1,41 @@
-import { axiosPublic } from '../../../Hooks/useAxiosPublic';
+import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import useAuth from '../../../Hooks/useAuth'
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2'
-// import toast from "react-hot-toast";
-// import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import moment from 'moment';
 
 
 
 const BookParcel = () => {
 
-    // const axiosPublic = useAxiosPublic()
+    const axiosPublic = useAxiosPublic()
     const { user } = useAuth()
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
-    const { register, handleSubmit, reset,
+    const { register, watch, handleSubmit, reset,
         //  formState: { errors },
     } = useForm()
-    
+
     const onSubmit = (data) => {
-        console.log(data)
-        let totalPrice = 0;
-        if (data.weight == 1) {
-            totalPrice = 50 + parseInt(data.price)
-        }
-        if (data.weight == 2) {
-            totalPrice = 100 + parseInt(data.price)
-        }
-        if (data.weight > 2) {
-            totalPrice = 150 + parseInt(data.price)
-        }
-        console.log(totalPrice)
+        // console.log(data)
+        // let totalPrice = 0;
+        // if (data.weight == 1) {
+        //     totalPrice = 50 + parseInt(data.price)
+        // }
+        // if (data.weight == 2) {
+        //     totalPrice = 100 + parseInt(data.price)
+        // }
+        // if (data.weight > 2) {
+        //     totalPrice = 150 + parseInt(data.price)
+        // }
+        // const date = new Date()
+
+        // console.log(totalPrice, date)
+
+        const date = new Date()
+        const newDate = moment(date).format('YYYY-MM-DD');
+        console.log(newDate)
 
         const bookParcel = {
             name: user.displayName,
@@ -43,8 +49,9 @@ const BookParcel = () => {
             deliveryDate: data.deliveryDate,
             latitude: data.latitude,
             longitude: data.longitude,
-            price: totalPrice,
-            status: 'Pending'
+            price: data.price,
+            status: 'Pending',
+            bookingDate : newDate
         }
         console.log(bookParcel)
         axiosPublic.post('/booking', bookParcel)
@@ -58,7 +65,7 @@ const BookParcel = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    // navigate('/my-parcel')
+                    navigate('/dashboard/myParcel')
                 }
             })
     }
@@ -140,21 +147,23 @@ const BookParcel = () => {
                                 <label className="label">
                                     <span className="label-text">Delivery Address Latitude</span>
                                 </label>
-                                <input {...register('latitude', { required: true })} type="text" placeholder="Delivery Address Latitude" className="input input-bordered" required />
+                                <input {...register('latitude', { required: true })} type="number" placeholder="Delivery Address Latitude" className="input input-bordered" required />
                             </div>
                             {/* longitude */}
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Delivery Address Longitude</span>
                                 </label>
-                                <input {...register('longitude', { required: true })} type="text" placeholder="Delivery Address Longitude" className="input input-bordered" required />
+                                <input {...register('longitude', { required: true })} type="number" placeholder="Delivery Address Longitude" className="input input-bordered" required />
                             </div>
                             {/* price */}
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Price</span>
                                 </label>
-                                <input {...register('price', { required: true })} type="text" placeholder="00" className="input input-bordered" required />
+                                <input {...register('price', { required: true })} type="text"
+                                    value={(watch("weight") <= 2 ? watch('weight') * 50 : 150)}
+                                    placeholder="00" className="input input-bordered" required />
                             </div>
                             <div className='form-control'>
                                 <input className='mt-3 btn btn-primary w-full font-bold' type="submit" value="Book" />

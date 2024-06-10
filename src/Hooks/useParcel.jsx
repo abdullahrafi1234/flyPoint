@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "./useAuth";
-import useAxiosSecure from "./useAxiosPublic";
+import useAxiosPublic from "./useAxiosPublic";
 
 const useParcel = () => {
    //tan stack query
-   const axiosSecure = useAxiosSecure()
+   const axiosSecure = useAxiosPublic()
     const {user} = useAuth()
     //tan stack query 
     const { refetch,data: parcel = [] } = useQuery({
