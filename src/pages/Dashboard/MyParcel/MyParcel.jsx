@@ -1,8 +1,9 @@
+// import Swal from "sweetalert2";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useParcel from "../../../Hooks/useParcel";
 import SectionTitle from "../../Shared/SectionTitle/SectionTile";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 
@@ -11,7 +12,21 @@ const MyParcel = () => {
     const [parcel, refetch] = useParcel()
     const axiosSecure = useAxiosSecure()
 
-    const handleDelete = (id) => {
+    const handleUpdate = (id) => {
+        // console.log(id)
+        axiosSecure.patch(`/booking/${id}`)
+            .then(res => {
+                if (res.data.modifiedCount > 0) {
+                    refetch()
+                    // console.log('updated')
+                }
+            })
+    }
+    const handleCancel = (id) => {
+
+        const updateStatus = {
+            status: 'Cancelled'
+        }
         console.log(id)
         Swal.fire({
             title: "Are you sure?",
@@ -20,17 +35,17 @@ const MyParcel = () => {
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Yes, Cancel it!"
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axiosSecure.delete(`/booking/${id}`)
+                axiosSecure.patch(`/bookings/${id}`, updateStatus)
                     .then(res => {
-                        if (res.data.deletedCount > 0) {
+                        if (res.data.modifiedCount > 0) {
                             refetch()
                             Swal.fire({
-                                title: "Deleted!",
-                                text: "Your file has been deleted.",
+                                title: "Canceled!",
+                                text: "Parcel Status Updated.",
                                 icon: "success"
                             });
                         }
@@ -39,19 +54,13 @@ const MyParcel = () => {
         });
     }
 
+
     return (
         <div className="px-10">
             <div>
                 <SectionTitle heading={'My Parcels'} subHeading={'Wanna Add More?'}></SectionTitle>
                 <div className="uppercase flex justify-between mb-8">
                     <h3 className="text-xl font-medium">Total Parcels: {parcel.length}</h3>
-                    {/* {
-                        cart.length > 0 ?
-                            <Link to={'/dashboard/payment'}>
-                                <button className="btn bg-[#D1A054] text-white">PAY</button>
-                            </Link> :
-                            <button disabled className="btn bg-[#D1A054] text-white">PAY</button>
-                    } */}
                 </div>
 
                 <div className="overflow-x-auto ">
@@ -73,7 +82,7 @@ const MyParcel = () => {
                             {/* row 1 */}
                             {
                                 parcel.map((item, index) =>
-                                    <tr className="" key={item._id}>
+                                    <tr key={item._id}>
                                         <th>{index + 1}</th>
                                         <td>{item.type}</td>
                                         <td>{item.deliveryDate}</td>
@@ -82,21 +91,18 @@ const MyParcel = () => {
                                         <td>N/A</td>
                                         <td>{item.status}</td>
                                         <th className="flex gap-2 items-center">
-                                            <button disabled={item?.status !== 'Pending'} className="  btn-xs">
-                                                <FaEdit className="text-2xl"></FaEdit>
-                                            </button>
                                             {
-                                                item?.status === 'Delivered' &&
-                                                <button className="  btn-xs text-lg">
-                                                    Review
-                                                </button>
+                                                item?.status === 'Pending' ?
+                                                    <Link to={`/dashboard/updateParcel/${item?._id}`}>
+                                                        <button onClick={()=> handleUpdate(item?._id)} className="  btn-xs">
+                                                            <FaEdit className="text-2xl"></FaEdit>
+                                                        </button>
+                                                    </Link> :
+                                                    <button disabled className=" btn btn-xs">
+                                                        <FaEdit className="text-2xl"></FaEdit>
+                                                    </button>
+
                                             }
-
-
-                                            <button onClick={() => handleDelete(item._id)} className="  btn-xs">
-                                                <FaTrashAlt className="text-xl"></FaTrashAlt>
-                                            </button>
-
                                             {
                                                 parcel.length > 0 ?
                                                     <Link to={'/dashboard/payment'}>
@@ -104,6 +110,20 @@ const MyParcel = () => {
                                                     </Link> :
                                                     <button disabled className="btn btn-primary btn-xs text-white">PAY</button>
                                             }
+                                            {
+                                                item?.status === 'Pending' &&
+                                                <button onClick={()=> handleCancel(item?._id)} className=" bg-red-400 text-white rounded-full  btn-xs text-sm">
+                                                    Cancel
+                                                </button>
+                                            }
+                                            {
+                                                item?.status === 'Delivered' &&
+                                                <button className=" bg-green-600 rounded-full btn-xs text-sm">
+                                                    Review
+                                                </button>
+                                            }
+
+                                            
                                         </th>
                                     </tr>)
                             }

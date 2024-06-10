@@ -12,6 +12,7 @@ import Dashboard from "../layout/Dashboard/Dashboard";
 import BookParcel from "../pages/Dashboard/BookParcel/BookParcel";
 import Welcome from "../pages/Dashboard/Welcome/Welcome";
 import MyParcel from "../pages/Dashboard/MyParcel/MyParcel";
+import UpdateParcel from "../pages/Dashboard/UpdateParcel/UpdateParcel";
 
 
 
@@ -59,6 +60,11 @@ const router = createBrowserRouter([
       {
         path: 'myParcel',
         element: <MyParcel></MyParcel>
+      },
+      {
+        path: 'updateParcel/:id',
+        element: <UpdateParcel></UpdateParcel>,
+        loader: ({params}) => fetch(`http://localhost:5000/booking/${params.id}`)
       }
     ]
   }
