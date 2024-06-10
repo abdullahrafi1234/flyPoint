@@ -9,6 +9,8 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Notification from "../pages/Notification/Notification";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../layout/Dashboard/Dashboard";
+import BookParcel from "../pages/Dashboard/BookParcel/BookParcel";
+import Welcome from "../pages/Dashboard/Welcome/Welcome";
 
 
 
@@ -41,7 +43,17 @@ const router = createBrowserRouter([
   //dashboard
   {
     path: 'dashboard',
-    element: <Dashboard></Dashboard>
+    element: <Dashboard></Dashboard>,
+    children: [
+      {
+        index: true,
+        element: <Welcome></Welcome>
+      },
+      {
+        path: 'bookParcel',
+        element: <BookParcel></BookParcel>
+      },
+    ]
   }
 ]);
 

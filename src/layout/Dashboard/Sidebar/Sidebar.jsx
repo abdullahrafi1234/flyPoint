@@ -21,25 +21,22 @@ const Sidebar = () => {
     const handleLogOut = () => {
         logOut()
             .then(
-               navigate('/login') 
+                navigate('/login')
             )
             .catch()
     }
-    
+
     return (
         <>
             {/* Small Screen Navbar */}
             <div className='bg-gray-100 text-gray-800 flex justify-between md:hidden'>
                 <div>
                     <div className='block cursor-pointer p-4 font-bold'>
-                        <Link to='/'>
-                            <img
-                                // className='hidden md:block'
-                                src='https://i.ibb.co/4ZXzmq5/logo.png'
-                                alt='logo'
-                                width='100'
-                                height='100'
-                            />
+                        <Link to={'/'}>
+                            <div className="flex uppercase items-center pl-3 gap-2">
+                                <img className="w-20 pt-3 items-center" src="/src/assets/fly-logo-2.png" alt="" />
+                                <button className="text-2xl font-extrabold">Fly<span className="font-normal">Point</span></button>
+                            </div>
                         </Link>
                     </div>
                 </div>
@@ -59,9 +56,9 @@ const Sidebar = () => {
             >
                 <div>
                     <div>
-                        <div className='w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-blue-200 mx-auto'>
+                        <div className='w-full  md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-blue-200 mx-auto'>
 
-                            <Link>
+                            <Link to={''}>
                                 <div className="flex uppercase items-center pl-3 gap-2">
                                     <img className="w-20 pt-3 items-center" src="/src/assets/fly-logo-2.png" alt="" />
                                     <button className="text-2xl font-extrabold">Fly<span className="font-normal">Point</span></button>
@@ -91,7 +88,7 @@ const Sidebar = () => {
 
                             {/* My Parcels */}
                             <NavLink
-                                to='myParcel'
+                                to='/dashboard/myParcel'
                                 className={({ isActive }) =>
                                     `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
                                     }`

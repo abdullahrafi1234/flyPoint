@@ -3,17 +3,19 @@ import Sidebar from "./Sidebar/Sidebar";
 
 const Dashboard = () => {
     return (
-        <div>
+        <div className="relative min-h-screen md:flex">
             {/* sidebar */}
-            <div>
+            <div className="">
                 <Sidebar></Sidebar>
             </div>
 
             {/* others outlet components */}
-            <div className="flex-1 px-24 py-6">
-                <Outlet></Outlet>
+            <div className="flex-1 md:ml-64">
+                <div className="p-5">
+                    <Outlet></Outlet>
+                </div>
             </div>
-            
+
         </div>
     );
 };
