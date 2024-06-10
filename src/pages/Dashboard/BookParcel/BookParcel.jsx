@@ -1,5 +1,7 @@
+import { axiosPublic } from '../../../Hooks/useAxiosPublic';
 import useAuth from '../../../Hooks/useAuth'
 import { useForm } from "react-hook-form";
+import Swal from 'sweetalert2'
 // import toast from "react-hot-toast";
 // import { Link, useNavigate } from "react-router-dom";
 
@@ -11,7 +13,10 @@ const BookParcel = () => {
     const { user } = useAuth()
     // const navigate = useNavigate()
 
-    const { register, handleSubmit, reset, formState: { errors }, } = useForm()
+    const { register, handleSubmit, reset,
+        //  formState: { errors },
+    } = useForm()
+    
     const onSubmit = (data) => {
         console.log(data)
         let totalPrice = 0;
@@ -25,7 +30,7 @@ const BookParcel = () => {
             totalPrice = 150 + parseInt(data.price)
         }
         console.log(totalPrice)
-        
+
         const bookParcel = {
             name: user.displayName,
             email: user.email,
@@ -42,20 +47,20 @@ const BookParcel = () => {
             status: 'Pending'
         }
         console.log(bookParcel)
-        // axiosPublic.post('/users', userInfo)
-        //     .then(res => {
-        //         if (res.data.insertedId) {
-        //             reset()
-        //             Swal.fire({
-        //                 position: "top-end",
-        //                 icon: "success",
-        //                 title: "User Created Successfully",
-        //                 showConfirmButton: false,
-        //                 timer: 1500
-        //             });
-        //             navigate('/')
-        //         }
-        //     })
+        axiosPublic.post('/booking', bookParcel)
+            .then(res => {
+                if (res.data.insertedId) {
+                    reset()
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "User Created Successfully",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    // navigate('/my-parcel')
+                }
+            })
     }
 
     return (

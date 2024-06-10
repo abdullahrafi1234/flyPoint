@@ -1,10 +1,10 @@
 import axios from "axios";
 
-export const axiosPublic = axios.create({
+export const axiosSecure = axios.create({
     baseURL: 'http://localhost:5000'
 })
 const useAxiosSecure = () => {
-    return axiosPublic
+    return axiosSecure
 };
 
 export default useAxiosSecure;

@@ -11,6 +11,7 @@ import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../layout/Dashboard/Dashboard";
 import BookParcel from "../pages/Dashboard/BookParcel/BookParcel";
 import Welcome from "../pages/Dashboard/Welcome/Welcome";
+import MyParcel from "../pages/Dashboard/MyParcel/MyParcel";
 
 
 
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
         path: 'bookParcel',
         element: <BookParcel></BookParcel>
       },
+      {
+        path: 'myParcel',
+        element: <MyParcel></MyParcel>
+      }
     ]
   }
 ]);
