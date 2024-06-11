@@ -10,8 +10,8 @@ const useParcel = () => {
     const { refetch,data: parcel = [] } = useQuery({
         queryKey: ['parcel', user?.email],
         queryFn: async () => {
-            // const res = await axiosSecure.get(`booking?email=${user.email}`)
-            const res = await axiosSecure.get(`booking`)
+            const res = await axiosSecure.get(`booking?email=${user.email}`)
+            // const res = await axiosSecure.get(`booking`)
             return res.data
         }
     })

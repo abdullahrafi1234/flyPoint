@@ -27,7 +27,7 @@ const MyParcel = () => {
         const updateStatus = {
             status: 'Cancelled'
         }
-        console.log(id)
+        // console.log(id)
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -38,7 +38,6 @@ const MyParcel = () => {
             confirmButtonText: "Yes, Cancel it!"
         }).then((result) => {
             if (result.isConfirmed) {
-
                 axiosSecure.patch(`/bookings/${id}`, updateStatus)
                     .then(res => {
                         if (res.data.modifiedCount > 0) {
@@ -59,7 +58,7 @@ const MyParcel = () => {
         <div className="px-10">
             <div>
                 <SectionTitle heading={'My Parcels'} subHeading={'Wanna Add More?'}></SectionTitle>
-                <div className="uppercase flex justify-between mb-8">
+                <div className=" flex justify-between mb-8">
                     <h3 className="text-xl font-medium">Total Parcels: {parcel.length}</h3>
                 </div>
 

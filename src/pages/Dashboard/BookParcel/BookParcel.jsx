@@ -46,7 +46,7 @@ const BookParcel = () => {
                 if (res.data.insertedId) {
                     reset()
                     Swal.fire({
-                        position: "top-end",
+                        position: "top-center",
                         icon: "success",
                         title: "User Created Successfully",
                         showConfirmButton: false,
