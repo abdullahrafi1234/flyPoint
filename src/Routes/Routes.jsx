@@ -15,6 +15,7 @@ import MyParcel from "../pages/Dashboard/MyParcel/MyParcel";
 import UpdateParcel from "../pages/Dashboard/UpdateParcel/UpdateParcel";
 import UpdateProfile from "../pages/Dashboard/UpdateProfile/UpdateProfile";
 import AllUsers from "../pages/Dashboard/Admin/AllUsers/AllUsers";
+import Statistics from "../pages/Dashboard/Admin/Statistics/Statistics";
 
 
 
@@ -66,12 +67,17 @@ const router = createBrowserRouter([
       {
         path: 'updateParcel/:id',
         element: <UpdateParcel></UpdateParcel>,
-        loader: ({params}) => fetch(`http://localhost:5000/booking/${params.id}`)
+        loader: ({ params }) => fetch(`http://localhost:5000/booking/${params.id}`)
       },
       {
         path: 'profile',
         element: <UpdateProfile></UpdateProfile>
       },
+      {
+        path: 'statistics',
+        element: <Statistics></Statistics>
+      },
+
       {
         path: 'allUsers',
         element: <AllUsers></AllUsers>

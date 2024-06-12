@@ -1,13 +1,17 @@
 import { useQuery } from '@tanstack/react-query'
 import useAxiosSecure from '../../../../Hooks/useAxiosSecure'
 import { Helmet } from 'react-helmet-async'
+import { FaUsers } from 'react-icons/fa'
+import Swal from 'sweetalert2'
+import { IoBicycleSharp } from "react-icons/io5";
+
 
 const AllUsers = () => {
 
     const axiosSecure = useAxiosSecure()
     //   Fetch users Data
     const {
-        data: users = [],
+        data: users = [], refetch
     } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
@@ -15,6 +19,39 @@ const AllUsers = () => {
             return data
         },
     })
+
+    const handleMakeAdmin = user => {
+        axiosSecure.patch(`/users/admin/${user._id}`)
+            .then(res => {
+                console.log(res.data)
+                if (res.data.modifiedCount > 0) {
+                    refetch()
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `${user.name} is an Admin Now`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+    }
+    const handleMakeDeliveryMan = user => {
+        axiosSecure.patch(`/userss/admin/${user._id}`)
+            .then(res => {
+                console.log(res.data)
+                if (res.data.modifiedCount > 0) {
+                    refetch()
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `${user.name} is a Delivery Man Now`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+    }
 
     console.log(users)
     return (
@@ -52,7 +89,13 @@ const AllUsers = () => {
                                             scope='col'
                                             className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                                         >
-                                            Action
+                                            Make Admin
+                                        </th>
+                                        <th
+                                            scope='col'
+                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                                        >
+                                            Make Delivery Man
                                         </th>
                                     </tr>
                                 </thead>
@@ -69,19 +112,22 @@ const AllUsers = () => {
                                                 </td>
 
                                                 <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                                                    <p className= 'text-center text-gray-900 whitespace-no-wrap'>{4}</p>
+                                                    <p className=' text-gray-900 whitespace-no-wrap'>{4}</p>
                                                 </td>
-                                                
-                                                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                                                    <span className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'>
-                                                        <span
-                                                            aria-hidden='true'
-                                                            className='absolute inset-0 bg-green-200 opacity-50 rounded-full'
-                                                        ></span>
-                                                        <span className='relative'>Update Role</span>
-                                                    </span>
-                                                    {/* Update User Modal */}
-                                                </td>
+                                                <th>
+                                                    {user?.role === 'Admin' ? 'Admin' :
+                                                        <button onClick={() => handleMakeAdmin(user)} className=" btn-xs">
+                                                            <FaUsers className="text-3xl text-white bg-blue-400 rounded-lg p-1.5" ></FaUsers>
+                                                        </button>
+                                                    }
+                                                </th>
+                                                <th>
+                                                    {user?.role === 'Delivery Man' ? 'Delivery Man' :
+                                                        <button onClick={() => handleMakeDeliveryMan(user)} className=" btn-xs">
+                                                            <IoBicycleSharp className="text-3xl text-white bg-blue-500 rounded-lg p-1.5" ></IoBicycleSharp>
+                                                        </button>
+                                                    }
+                                                </th>
                                             </tr>
                                         )
                                     }

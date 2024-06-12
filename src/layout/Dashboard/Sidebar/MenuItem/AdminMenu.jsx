@@ -7,7 +7,7 @@ const AdminMenu = () => {
     return (
         <>
             {/* Statistics */}
-            <MenuItem label={'Statistics'} address={'bookParcel'} icon={IoIosStats }></MenuItem>
+            <MenuItem label={'Statistics'} address={'statistics'} icon={IoIosStats }></MenuItem>
             
             <MenuItem label={'All Parcel'} address={'bookParcel'} icon={FaBoxOpen}></MenuItem>
 
