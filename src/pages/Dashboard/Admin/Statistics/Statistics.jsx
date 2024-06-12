@@ -18,6 +18,7 @@ const Statistics = () => {
             return data
         },
     })
+    // const {bookingDate} = booking
 
     console.log(booking)
 

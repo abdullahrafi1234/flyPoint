@@ -9,12 +9,12 @@ const AdminMenu = () => {
             {/* Statistics */}
             <MenuItem label={'Statistics'} address={'statistics'} icon={IoIosStats }></MenuItem>
             
-            <MenuItem label={'All Parcel'} address={'bookParcel'} icon={FaBoxOpen}></MenuItem>
+            <MenuItem label={'All Parcel'} address={'allParcels'} icon={FaBoxOpen}></MenuItem>
 
             {/* My Parcels */}
             <MenuItem label={'All Users'} address={'allUsers'} icon={IoMenuSharp}></MenuItem>
 
-            <MenuItem label={'All Delivery Men'} address={'myParcel'} icon={GrGroup }></MenuItem>
+            <MenuItem label={'All Delivery Men'} address={'allDeliveryMan'} icon={GrGroup }></MenuItem>
 
         </>
     )

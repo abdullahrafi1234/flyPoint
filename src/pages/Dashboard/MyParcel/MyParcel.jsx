@@ -93,7 +93,7 @@ const MyParcel = () => {
                                             {
                                                 item?.status === 'Pending' ?
                                                     <Link to={`/dashboard/updateParcel/${item?._id}`}>
-                                                        <button onClick={()=> handleUpdate(item?._id)} className="  btn-xs">
+                                                        <button onClick={() => handleUpdate(item?._id)} className="  btn-xs">
                                                             <FaEdit className="text-2xl"></FaEdit>
                                                         </button>
                                                     </Link> :
@@ -111,18 +111,65 @@ const MyParcel = () => {
                                             }
                                             {
                                                 item?.status === 'Pending' &&
-                                                <button onClick={()=> handleCancel(item?._id)} className=" bg-red-400 text-white rounded-full  btn-xs text-sm">
+                                                <button onClick={() => handleCancel(item?._id)} className=" bg-red-400 text-white rounded-full  btn-xs text-sm">
                                                     Cancel
                                                 </button>
                                             }
                                             {
                                                 item?.status === 'Delivered' &&
-                                                <button className=" bg-green-600 rounded-full btn-xs text-sm">
-                                                    Review
-                                                </button>
+                                                // <button className=" bg-green-600 rounded-full btn-xs text-sm">
+                                                //     Review
+                                                // </button>
+                                                <div className="items-center">
+                                                    <button className="" onClick={() => document.getElementById('my_modal_5').showModal()}>
+                                                        <h3 className='mt-4'>
+
+                                                            {/* <button className='btn btn-success btn-outline'>Food Request</button> */}
+                                                            <p className='btn btn-sm btn-success btn-outline'>Review</p>
+
+                                                        </h3>
+                                                    </button>
+                                                    <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+                                                        <div className="modal-box">
+                                                            {/* form part */}
+                                                            <div className='space-y-3 flex flex-col items-center'>
+                                                                <h1 className='text-center text-2xl font-bold mb-4'>Review</h1>
+                                                            </div>
+                                                            <form >
+                                                                {/* name, quantity  */}
+                                                                <div className=" gap-10 w-full ">
+                                                                    <div className="form-control ">
+                                                                        <label className="label">
+
+                                                                            <span className="label-text">Review</span>
+                                                                        </label>
+                                                                        <label className="input-group">
+                                                                            <input type="text"
+                                                                             
+                                                                                name="quantity" placeholder="Please Write Here" className="input input-bordered w-full" />
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+
+                                                                {/* btn */}
+
+                                                                <div className="mt-8">
+                                                                    <input className="btn  btn-success btn-block text-white " type="submit" value="Submit Review" />
+
+                                                                </div>
+                                                            </form>
+                                                            <div className="modal-action">
+                                                                <form method="dialog">
+                                                                    {/* if there is a button in form, it will close the modal */}
+                                                                    <button className="btn btn-lg btn-circle  absolute right-2 top-2">✕</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </dialog>
+                                                </div>
                                             }
 
-                                            
+
                                         </th>
                                     </tr>)
                             }

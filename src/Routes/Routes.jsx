@@ -16,6 +16,8 @@ import UpdateParcel from "../pages/Dashboard/UpdateParcel/UpdateParcel";
 import UpdateProfile from "../pages/Dashboard/UpdateProfile/UpdateProfile";
 import AllUsers from "../pages/Dashboard/Admin/AllUsers/AllUsers";
 import Statistics from "../pages/Dashboard/Admin/Statistics/Statistics";
+import AllParcels from "../pages/Dashboard/Admin/AllParcels/AllParcels";
+import AllDeliveryMan from "../pages/Dashboard/Admin/AllDeliveryMan/AllDeliveryMan";
 
 
 
@@ -77,11 +79,19 @@ const router = createBrowserRouter([
         path: 'statistics',
         element: <Statistics></Statistics>
       },
+      {
+        path: 'allParcels',
+        element: <AllParcels></AllParcels>
+      },
 
       {
         path: 'allUsers',
         element: <AllUsers></AllUsers>
-      }
+      },
+      {
+        path: 'allDeliveryMan',
+        element: <AllDeliveryMan></AllDeliveryMan>
+      },
     ]
   }
 ]);
