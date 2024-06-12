@@ -14,6 +14,7 @@ import Welcome from "../pages/Dashboard/Welcome/Welcome";
 import MyParcel from "../pages/Dashboard/MyParcel/MyParcel";
 import UpdateParcel from "../pages/Dashboard/UpdateParcel/UpdateParcel";
 import UpdateProfile from "../pages/Dashboard/UpdateProfile/UpdateProfile";
+import AllUsers from "../pages/Dashboard/Admin/AllUsers/AllUsers";
 
 
 
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <UpdateProfile></UpdateProfile>
+      },
+      {
+        path: 'allUsers',
+        element: <AllUsers></AllUsers>
       }
     ]
   }
