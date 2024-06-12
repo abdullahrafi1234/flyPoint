@@ -4,13 +4,13 @@ import useAxiosPublic from "./useAxiosPublic";
 
 const useParcel = () => {
    //tan stack query
-   const axiosSecure = useAxiosPublic()
+   const axiosPublic = useAxiosPublic()
     const {user} = useAuth()
     //tan stack query 
     const { refetch,data: parcel = [] } = useQuery({
         queryKey: ['parcel', user?.email],
         queryFn: async () => {
-            const res = await axiosSecure.get(`booking?email=${user.email}`)
+            const res = await axiosPublic.get(`booking?email=${user.email}`)
             // const res = await axiosSecure.get(`booking`)
             return res.data
         }

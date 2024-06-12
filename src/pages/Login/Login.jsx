@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
-import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
+import SocialLogin from "../../pages/Shared/SocialLogin/SocialLogin";
 
 const Login = () => {
 
-    const { signIn, googleLogin } = useContext(AuthContext)
+    const { signIn } = useContext(AuthContext)
     const location = useLocation()
     const navigate = useNavigate()
 
@@ -23,24 +23,24 @@ const Login = () => {
             .then(result => {
                 console.log(result.user)
                 toast.success('Successfully Logged In')
-                navigate('/')
+                navigate(from, {replace: true})
             })
             .catch(error => {
                 console.log(error)
             })
     }
 
-    const handleGoogleLogin = () => {
-        googleLogin()
-            .then(result => {
-                console.log(result.user)
-                toast.success('Successfully Logged In');
-                navigate(from, {replace: true})
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        }
+    // const handleGoogleLogin = () => {
+    //     googleLogin()
+    //         .then(result => {
+    //             console.log(result.user)
+    //             toast.success('Successfully Logged In');
+    //             navigate(from, {replace: true})
+    //         })
+    //         .catch(error => {
+    //             console.log(error)
+    //         })
+    //     }
 
     return (
         <div>
@@ -70,21 +70,7 @@ const Login = () => {
 
                         </form>
                         <div className="px-10 space-y-2">
-                            <div className="divider">or</div>
-                            <div>
-                                <button  onClick={handleGoogleLogin} className="btn w-full hover:bg-blue-200 font-bold">
-
-                                    <FaGoogle className="text-lg"></FaGoogle>
-                                    Google Login
-                                    {/* <Toaster reverseOrder={false} position="top-center" /> */}
-                                </button>
-                            </div>
-                            <div>
-                                <button className="btn w-full hover:bg-blue-200 font-bold">
-                                    <FaFacebook className="text-xl"></FaFacebook>
-                                    Facebook Login
-                                </button>
-                            </div>
+                           <SocialLogin></SocialLogin>
                             <p className='text-center text-blue-400 font-semibold pb-6'>New Here? <Link className="underline" to={'/signup'}>Create a New Account</Link></p>
 
                         </div>

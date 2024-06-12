@@ -13,7 +13,7 @@ const AuthProvider = ({ children }) => {
     const googleProvider = new GoogleAuthProvider()
     // const axiosPublic = useAxiosPublic()
 
-    const createUser = (email, password)=> {
+    const createUser = (email, password) => {
         setLoading(true)
         return createUserWithEmailAndPassword(auth, email, password)
     }
@@ -36,9 +36,11 @@ const AuthProvider = ({ children }) => {
     }
 
     const updateUserProfile = (name, photo) => {
-        setLoading(true)
+        // setLoading(true)
         return updateProfile(auth.currentUser, {
-            displayName: name, photoURL: photo})
+            displayName: name,
+            photoURL: photo
+        })
     }
 
 
