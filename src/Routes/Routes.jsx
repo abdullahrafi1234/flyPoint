@@ -18,6 +18,7 @@ import AllUsers from "../pages/Dashboard/Admin/AllUsers/AllUsers";
 import Statistics from "../pages/Dashboard/Admin/Statistics/Statistics";
 import AllParcels from "../pages/Dashboard/Admin/AllParcels/AllParcels";
 import AllDeliveryMan from "../pages/Dashboard/Admin/AllDeliveryMan/AllDeliveryMan";
+import Payment from "../pages/Dashboard/Payment/Payment";
 
 
 
@@ -91,6 +92,10 @@ const router = createBrowserRouter([
       {
         path: 'allDeliveryMan',
         element: <AllDeliveryMan></AllDeliveryMan>
+      },
+      {
+        path: 'payment',
+        element: <Payment></Payment>
       },
     ]
   }
