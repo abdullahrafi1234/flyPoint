@@ -25,7 +25,7 @@ const Navbar = () => {
                 </button>
             </NavLink>
         </li>
-       
+
     </>
 
     return (
@@ -41,7 +41,7 @@ const Navbar = () => {
                 </div>
                 <Link>
                     <div className="flex uppercase items-center pl-3 gap-2">
-                        <img className="w-20 pt-3 items-center" src="/src/assets/fly-logo-2.png" alt="" />
+                        <img className="w-20 pt-3 items-center" src="fly-logo-2.png" alt="" />
                         <button className="text-2xl font-extrabold">Fly<span className="font-normal">Point</span></button>
                     </div>
                 </Link>

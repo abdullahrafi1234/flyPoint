@@ -40,7 +40,7 @@ const Sidebar = () => {
                     <div className='block cursor-pointer p-4 font-bold'>
                         <Link to={'/'}>
                             <div className="flex uppercase items-center pl-3 gap-2">
-                                <img className="w-20 pt-3 items-center" src="/src/assets/fly-logo-2.png" alt="" />
+                                <img className="w-20 pt-3 items-center" src="fly-logo-2.png" alt="" />
                                 <button className="text-2xl font-extrabold">Fly<span className="font-normal">Point</span></button>
                             </div>
                         </Link>
@@ -66,7 +66,7 @@ const Sidebar = () => {
 
                             <Link to={'/'}>
                                 <div className="flex uppercase items-center pl-3 gap-2">
-                                    <img className="w-20 pt-3 items-center" src="/src/assets/fly-logo-2.png" alt="" />
+                                    <img className="w-20 pt-3 items-center" src="fly-logo-2.png" alt="" />
                                     <button className="text-2xl font-extrabold">Fly<span className="font-normal">Point</span></button>
                                 </div>
                             </Link>
@@ -78,13 +78,13 @@ const Sidebar = () => {
                         {/* Conditional toggle button here.. */}
 
                         {/*  Menu Items */}
-                     
-                        <nav>
-                           
 
-                             {role === 'User' && <UserMenu></UserMenu>}
-                             {role === 'Admin' && <AdminMenu></AdminMenu>}
-                             {role === 'Delivery Man' && <DeliveryMan></DeliveryMan>}
+                        <nav>
+
+
+                            {role === 'User' && <UserMenu></UserMenu>}
+                            {role === 'Admin' && <AdminMenu></AdminMenu>}
+                            {role === 'Delivery Man' && <DeliveryMan></DeliveryMan>}
                         </nav>
                     </div>
                 </div>

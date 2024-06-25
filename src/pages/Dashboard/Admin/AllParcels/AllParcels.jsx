@@ -1,22 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../../Hooks/useAxiosSecure'
 import { Helmet } from 'react-helmet-async';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import SectionTitle from '../../../Shared/SectionTitle/SectionTile';
 
 
 
 const AllParcels = () => {
-
-    //   Fetch users Data
-    const {
-        data: users = [], 
-    } = useQuery({
-        queryKey: ['users'],
-        queryFn: async () => {
-            const { data } = await axiosSecure(`/users`)
-            return data
-        },
-    })
-        console.log(users)
 
     const axiosSecure = useAxiosSecure()
     //   Fetch users Data
@@ -30,12 +21,87 @@ const AllParcels = () => {
         },
     })
     console.log(parcels)
+
+    const { data: deliveryMen = [], refetch } = useQuery({
+        queryKey: ['deliveryMen'],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/users/delivery-men`);
+            return res.data;
+        }
+    })
+
+    const MySwal = withReactContent(Swal);
+
+
+    const handleManage = (parcel) => {
+        MySwal.fire({
+            title: 'Manage Parcel',
+            html: (
+                <div className="space-y-4">
+                    <div className="grid grid-cols-2 items-center">
+                        <label>Select Delivery Man:</label>
+
+                        <select id="deliveryManSelect" className="border h-9 rounded-md text-base py-1 px-3">
+                            {deliveryMen.map(man => (
+                                <option key={man._id} value={man._id}>{man.name}</option>
+                            ))}
+                            {/* {
+                                deliveryMen.map(user => user.role === 'Delivery Man' ? <option key={user._id}>{user.name}</option> : '')
+                            } */}
+                        </select>
+                    </div>
+                    <div className="grid grid-cols-2 items-center">
+                        <label>Approx. Delivery Date:</label>
+                        <input
+                            type="date"
+                            id="deliveryDateInput"
+                        />
+                    </div>
+                </div>
+            ),
+            showCancelButton: true,
+            confirmButtonText: 'Assign',
+            preConfirm: () => {
+                const deliveryManID = document.getElementById('deliveryManSelect').value;
+                const approxDeliveryDate = document.getElementById('deliveryDateInput').value;
+                if (!deliveryManID || !approxDeliveryDate) {
+                    MySwal.showValidationMessage('Please select a delivery man and a delivery date.');
+                    return false;
+                }
+                return { deliveryManID, approxDeliveryDate };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const { deliveryManID, approxDeliveryDate } = result.value;
+                const updatedParcel = { deliveryManID, approxDeliveryDate }
+                axiosSecure.patch(`/parcels/update-admin/${parcel._id}`, updatedParcel)
+                    .then(({ data }) => {
+                        if (data.modifiedCount > 0) {
+                            refetch();
+                            MySwal.fire('Success', 'Parcel assigned successfully!', 'success');
+                        } else {
+                            MySwal.fire('Error', 'Failed to assign parcel.', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error assigning parcel:', error);
+                        MySwal.fire('Error', 'Failed to assign parcel.', 'error');
+                    });
+            }
+        });
+    };
+
+
+
+
+
     return (
         <>
             <div className='container mx-auto px-4 sm:px-8'>
                 <Helmet>
                     <title>All Parcels - FlyPoint</title>
                 </Helmet>
+                <SectionTitle heading={'All Parcels'}></SectionTitle>
                 <div className='py-8'>
                     <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto'>
                         <div className='inline-block min-w-full shadow rounded-lg overflow-hidden'>
@@ -44,44 +110,44 @@ const AllParcels = () => {
                                     <tr>
                                         <th
                                             scope='col'
-                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-bold'
                                         >
                                             Name
                                         </th>
                                         <th
                                             scope='col'
-                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-bold'
                                         >
                                             Phone
                                         </th>
                                         <th
                                             scope='col'
-                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-bold'
                                         >
                                             Booking Date
                                         </th>
 
                                         <th
                                             scope='col'
-                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-bold'
                                         >
                                             Req. Delivery Date
                                         </th>
                                         <th
                                             scope='col'
-                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-bold'
                                         >
                                             Cost
                                         </th>
                                         <th
                                             scope='col'
-                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-bold'
                                         >
                                             Status
                                         </th>
                                         <th
                                             scope='col'
-                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-bold'
                                         >
                                             Manage
                                         </th>
@@ -92,91 +158,41 @@ const AllParcels = () => {
                                     {
                                         parcels.map((parcel) =>
                                             <tr key={parcel._id}>
-                                                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+                                                <td className='px-5  border-b border-gray-200 bg-white text-sm'>
                                                     <p className='text-gray-900 whitespace-no-wrap'>{parcel?.name}</p>
                                                 </td>
-                                                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+                                                <td className='px-5  border-b border-gray-200 bg-white text-sm'>
                                                     <p className='text-gray-900 whitespace-no-wrap'>{parcel.phone}</p>
                                                 </td>
 
-                                                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+                                                <td className='px-5 border-b border-gray-200 bg-white text-sm'>
                                                     <p className=' text-gray-900 whitespace-no-wrap'>{parcel.bookingDate}</p>
                                                 </td>
-                                                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+                                                <td className='px-5  border-b border-gray-200 bg-white text-sm'>
                                                     <p className=' text-gray-900 whitespace-no-wrap'>{parcel.deliveryDate}</p>
                                                 </td>
-                                                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+                                                <td className='px-5  border-b border-gray-200 bg-white text-sm'>
                                                     <p className=' text-gray-900 whitespace-no-wrap'>{parcel.price}</p>
                                                 </td>
-                                                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                                                    <p className=' text-gray-900 whitespace-no-wrap'>{parcel.status}</p>
+                                                <td className='px-5  border-b border-gray-200 bg-white text-sm'>
+                                                {
+                                                        parcel.status === 'Pending' && <button className='font-medium whitespace-no-wrap btn-sm bg-white rounded-full'>{parcel.status}</button>
+                                                    }
+                                                    {
+                                                        parcel.status === 'Delivered' && <button className='font-medium whitespace-no-wrap btn-sm bg-green-700 rounded-full text-white'>{parcel.status}</button>
+                                                    }
+                                                    {
+                                                        parcel.status === 'Cancelled' && <button className='font-medium whitespace-no-wrap btn-sm bg-red-700 rounded-full text-white'>{parcel.status}</button>
+                                                    }
+                                                    {
+                                                        parcel.status === 'On The Way' && <button className='font-medium whitespace-no-wrap btn-sm bg-white rounded-full border'>{parcel.status}</button>
+                                                    }
+                                                    {/* <p className=' text-gray-900 whitespace-no-wrap btn btn-outline'>{parcel.status}</p> */}
                                                 </td>
-                                                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                                                    {/* Open the modal using document.getElementById('ID').showModal() method */}
-
-                                                    <button className="" onClick={() => document.getElementById('my_modal_5').showModal()}>
-                                                        <h3 className='mt-4'>
-
-                                                            {/* <button className='btn btn-success btn-outline'>Food Request</button> */}
-                                                            <p className='btn btn-success btn-outline'>Manage Parcel</p>
-
-                                                        </h3>
-                                                    </button>
-                                                    <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-                                                        <div className="modal-box">
-                                                            {/* form part */}
-                                                            <div className='space-y-3 flex flex-col items-center'>
-                                                                <h1 className='text-center text-2xl font-bold mb-4'>Manage Parcel</h1>
-                                                            </div>
-                                                            <form >
-                                                                {/* name, quantity  */}
-                                                                <div className="md:flex gap-10  ">
-                                                                    <div className="form-control">
-                                                                        <label className="label">
-                                                                            <span className="label-text">Delivery Man</span>
-                                                                        </label>
-                                                                        <select defaultValue={'default'} className="select select-bordered join-item">
-                                                                            <option disabled value={'default'}>Please Select</option>
-                                                                            {/* {
-                                                                                names.map(name => <option key={name.id}>{name.id}</option>)
-                                                                            } */}
-                                                                            {
-                                                                                users.map( user => user.role === 'Delivery Man' ? <option key={user._id}>{user.name}</option> : '')
-                                                                            }
-                                                                        </select>
-                                                                    </div>
-                                                                    <div className="form-control md:w-1/2">
-                                                                        <label className="label">
-
-                                                                            <span className="label-text">Status</span>
-                                                                        </label>
-                                                                        <label className="input-group">
-                                                                            <input type="text"
-                                                                                // value={_id}
-                                                                                readOnly
-                                                                                name="quantity" placeholder="Pending" className="input input-bordered w-full" />
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-
-
-
-                                                                {/* btn */}
-
-                                                                <div className="mt-8">
-                                                                    <input className="btn  btn-success btn-block text-white " type="submit" value="Assign" />
-
-                                                                </div>
-                                                            </form>
-                                                            <div className="modal-action">
-                                                                <form method="dialog">
-                                                                    {/* if there is a button in form, it will close the modal */}
-                                                                    <button className="btn btn-lg btn-circle  absolute right-2 top-2">✕</button>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </dialog>
+                                                <td className='px-5 py-2 border-b border-gray-200 bg-white text-sm'>
+                                                    <button className='btn btn-primary' disabled={parcel.status === "Cancelled" ? true : false} onClick={() => handleManage(parcel)}>Manage</button>
                                                 </td>
+
                                             </tr>
                                         )
                                     }

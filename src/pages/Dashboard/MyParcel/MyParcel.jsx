@@ -1,16 +1,21 @@
-// import Swal from "sweetalert2";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useParcel from "../../../Hooks/useParcel";
 import SectionTitle from "../../Shared/SectionTitle/SectionTile";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaRegStar, FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import withReactContent from "sweetalert2-react-content";
+import useAuth from "../../../Hooks/useAuth";
+import Rating from "react-rating";
 
 
 
 const MyParcel = () => {
     const [parcel, refetch] = useParcel()
     const axiosSecure = useAxiosSecure()
+    const { user } = useAuth()
+
+    const MySwal = withReactContent(Swal);
 
     const handleUpdate = (id) => {
         // console.log(id)
@@ -54,6 +59,91 @@ const MyParcel = () => {
     }
 
 
+    const handleReview = (item) => {
+        let ratingValue = 0;
+        MySwal.fire({
+            title: 'Review',
+            html: (
+                <div className="space-y-4">
+                    <div className="grid grid-cols-2 items-center">
+                        <label>User’s Name:</label>
+                        <input
+                            type="text"
+                            id="userName"
+                            value={user.displayName}
+                        />
+                    </div>
+                    <div className="grid grid-cols-2 items-center">
+                        <label>User’s Image:</label>
+                        <input
+                            type="text"
+                            id="userImage"
+                            value={user.photoURL}
+                        />
+                    </div>
+                    <div className="grid grid-cols-2 items-center">
+                        <label>Rating:</label>
+                        <Rating
+                            emptySymbol={<FaRegStar />}
+                            fullSymbol={<FaStar />}
+                            onChange={(value) => ratingValue = value}
+                        />
+                    </div>
+                    <div className="grid grid-cols-2 items-center">
+                        <label>Feedback:</label>
+                        <textarea id="feedback" />
+                    </div>
+                    <div className="grid grid-cols-2 items-center">
+                        <label>Approx. Delivery Date:</label>
+                        <input
+                            type="text"
+                            id="deliveryManID"
+                            value={item.deliveryManID}
+                        />
+                    </div>
+                </div>
+            ),
+            showCancelButton: true,
+            confirmButtonText: 'Review',
+            preConfirm: () => {
+                const userName = document.getElementById('userName').value;
+                const userImage = document.getElementById('userImage').value;
+                const feedback = document.getElementById('feedback').value;
+                const deliveryManID = document.getElementById('deliveryManID').value;
+                const reviewDate = new Date().toISOString().slice(0, 10);
+
+
+                console.log(userName, userImage, ratingValue, feedback, deliveryManID);
+
+                if (!userName || !userImage || !ratingValue || !feedback || !deliveryManID) {
+                    MySwal.showValidationMessage('Please fill up all fields');
+                    return false;
+                }
+                return { userName, userImage, rating: ratingValue, reviewDate, feedback, deliveryManID };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const { userName, userImage, rating, reviewDate, feedback, deliveryManID } = result.value;
+                const review = { userName, userImage, rating, reviewDate, feedback, deliveryManID }
+                axiosSecure.post(`/delivery-man/review`, review)
+                    .then(({ data }) => {
+                        if (data.insertedId) {
+                            MySwal.fire('Success', 'Review successfully Submitted!', 'success');
+                            refetch();
+                        } else {
+                            MySwal.fire('Error', 'Something went wrong.', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error reviewing:', error);
+                        MySwal.fire('Error', 'Something went wrong.', 'error');
+                    });
+            }
+        });
+    };
+
+
+
     return (
         <div className="px-10">
             <div>
@@ -72,7 +162,7 @@ const MyParcel = () => {
                                 <th>Req. Delivery</th>
                                 <th>Approx. Delivery</th>
                                 <th>Booking Date</th>
-                                <th>Delivery Men ID</th>
+                                <th>Delivery Man ID</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -85,21 +175,34 @@ const MyParcel = () => {
                                         <th>{index + 1}</th>
                                         <td>{item.type}</td>
                                         <td>{item.deliveryDate}</td>
-                                        <td>N/A</td>
+                                        <td>{item?.approxDeliveryDate || 'N/A'}</td>
                                         <td>{item.bookingDate}</td>
-                                        <td>N/A</td>
+                                        <td>{item?.
+                                            deliveryManID || 'N/A'}</td>
                                         <td>{item.status}</td>
                                         <th className="flex gap-2 items-center">
                                             {
-                                                item?.status === 'Pending' ?
-                                                    <Link to={`/dashboard/updateParcel/${item?._id}`}>
-                                                        <button onClick={() => handleUpdate(item?._id)} className="  btn-xs">
-                                                            <FaEdit className="text-2xl"></FaEdit>
-                                                        </button>
-                                                    </Link> :
-                                                    <button disabled className=" btn btn-xs">
+                                                item?.status !== 'Delivered' ?
+                                                <Link to={`/dashboard/updateParcel/${item?._id}`}>
+                                                    <button onClick={() => handleUpdate(item?._id)} className="  btn-xs">
                                                         <FaEdit className="text-2xl"></FaEdit>
                                                     </button>
+                                                </Link>
+                                                :
+                                                <button disabled className=" btn btn-xs">
+                                                    <FaEdit className="text-2xl"></FaEdit>
+                                                </button>
+
+                                            }
+                                            {
+                                                item?.status !== 'Delivered' ?
+                                                <button onClick={() => handleCancel(item?._id)} className=" bg-red-400 text-white rounded-full  btn-xs text-sm">
+                                                    Cancel
+                                                </button> 
+                                                :
+                                                <button disabled className=" btn btn-xs">
+                                                    Cancel
+                                                </button>
 
                                             }
                                             {
@@ -110,63 +213,11 @@ const MyParcel = () => {
                                                     <button disabled className="btn btn-primary btn-xs text-white">PAY</button>
                                             }
                                             {
-                                                item?.status === 'Pending' &&
-                                                <button onClick={() => handleCancel(item?._id)} className=" bg-red-400 text-white rounded-full  btn-xs text-sm">
-                                                    Cancel
-                                                </button>
-                                            }
-                                            {
                                                 item?.status === 'Delivered' &&
-                                                // <button className=" bg-green-600 rounded-full btn-xs text-sm">
-                                                //     Review
-                                                // </button>
-                                                <div className="items-center">
-                                                    <button className="" onClick={() => document.getElementById('my_modal_5').showModal()}>
-                                                        <h3 className='mt-4'>
+                                                <button onClick={() => handleReview(item)} className=" bg-green-600 rounded-full btn-sm text-white text-sm">
+                                                    Review
+                                                </button>
 
-                                                            {/* <button className='btn btn-success btn-outline'>Food Request</button> */}
-                                                            <p className='btn btn-sm btn-success btn-outline'>Review</p>
-
-                                                        </h3>
-                                                    </button>
-                                                    <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-                                                        <div className="modal-box">
-                                                            {/* form part */}
-                                                            <div className='space-y-3 flex flex-col items-center'>
-                                                                <h1 className='text-center text-2xl font-bold mb-4'>Review</h1>
-                                                            </div>
-                                                            <form >
-                                                                {/* name, quantity  */}
-                                                                <div className=" gap-10 w-full ">
-                                                                    <div className="form-control ">
-                                                                        <label className="label">
-
-                                                                            <span className="label-text">Review</span>
-                                                                        </label>
-                                                                        <label className="input-group">
-                                                                            <input type="text"
-                                                                             
-                                                                                name="quantity" placeholder="Please Write Here" className="input input-bordered w-full" />
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-
-                                                                {/* btn */}
-
-                                                                <div className="mt-8">
-                                                                    <input className="btn  btn-success btn-block text-white " type="submit" value="Submit Review" />
-
-                                                                </div>
-                                                            </form>
-                                                            <div className="modal-action">
-                                                                <form method="dialog">
-                                                                    {/* if there is a button in form, it will close the modal */}
-                                                                    <button className="btn btn-lg btn-circle  absolute right-2 top-2">✕</button>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </dialog>
-                                                </div>
                                             }
 
 

@@ -1,65 +1,20 @@
-import SectionTitle from "../../Shared/SectionTitle/SectionTile";
-import { IoStar } from "react-icons/io5";
-import img1 from '../../../assets/banner-1.jpg'
-import { IoStarHalf } from "react-icons/io5";
+import Rating from "react-rating";
+import { FaRegStar, FaStar } from "react-icons/fa";
 
-const TopDeliveryMan = () => {
+const TopDeliveryMan = ({ man }) => {
+    const { deliveredCount, averageRating, photo, name } = man;
     return (
-        <div>
-            <SectionTitle heading={'The Top Delivery Man'} subHeading={'Meet our top delivery men who consistently deliver excellence and ensure your parcels reach their destination safely and on time.'}></SectionTitle>
-
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-10 mt-8 ">
-
-                <div className="card w-96 bg-base-100 shadow-xl">
-                    <figure className="px-10 pt-10">
-                        <img src={img1} alt="Shoes" className="rounded-full" />
-                    </figure>
-                    <div className="card-body items-center text-center">
-                        <h2 className="text-xl font-bold">Delivery Man</h2>
-                        <p className="font-medium">Parcel Delivered: 100+</p>
-                        <div className="card-actions items-center font-medium">
-                            Ratings:
-                            <IoStar className="text-lg text-blue-600"></IoStar>
-                            <IoStar className="text-lg text-blue-600"></IoStar>
-                            <IoStar className="text-lg text-blue-600"></IoStar>
-                            <IoStar className="text-lg text-blue-600"></IoStar>
-                            <IoStarHalf className="text-lg text-blue-600"></IoStarHalf>
-                        </div>
-                    </div>
-                </div>
-                <div className="card w-96 bg-base-100 shadow-xl">
-                    <figure className="px-10 pt-10">
-                        <img src={img1} alt="Shoes" className="rounded-full" />
-                    </figure>
-                    <div className="card-body items-center text-center">
-                        <h2 className="text-xl font-bold">Delivery Man</h2>
-                        <p className="font-medium">Parcel Delivered: 100+</p>
-                        <div className="card-actions items-center font-medium">
-                            Ratings:
-                            <IoStar className="text-lg text-blue-600"></IoStar>
-                            <IoStar className="text-lg text-blue-600"></IoStar>
-                            <IoStar className="text-lg text-blue-600"></IoStar>
-                            <IoStar className="text-lg text-blue-600"></IoStar>
-                            <IoStarHalf className="text-lg text-blue-600"></IoStarHalf>
-                        </div>
-                    </div>
-                </div>
-                <div className="card w-96 bg-base-100 shadow-xl">
-                    <figure className="px-10 pt-10">
-                        <img src={img1} alt="Shoes" className="rounded-full" />
-                    </figure>
-                    <div className="card-body items-center text-center">
-                        <h2 className="text-xl font-bold">Delivery Man</h2>
-                        <p className="font-medium">Parcel Delivered: 100+</p>
-                        <div className="card-actions items-center font-medium">
-                            Ratings:
-                            <IoStar className="text-lg text-blue-600"></IoStar>
-                            <IoStar className="text-lg text-blue-600"></IoStar>
-                            <IoStar className="text-lg text-blue-600"></IoStar>
-                            <IoStar className="text-lg text-blue-600"></IoStar>
-                            <IoStarHalf className="text-lg text-blue-600"></IoStarHalf>
-                        </div>
-                    </div>
+        <div className="mt-8">
+            <div className="card w-96 bg-base-100 shadow-xl">
+                <figure className="">
+                    <img src={photo} alt="Delivery Man pic" className="rounded-full w-48 h-36" />
+                </figure>
+                <div className="card-body items-center text-center">
+                    <h2 className="text-xl font-bold">{name}</h2>
+                    <p className="font-medium">Parcel Delivered: {deliveredCount}</p>
+                    <p className="mb-4 flex gap-2 text-gray-700 mt-1 items-center justify-center">
+                        <span>Rating: </span><Rating readonly className="text-primary" emptySymbol={<FaRegStar />} fullSymbol={<FaStar />} initialRating={averageRating}></Rating>
+                    </p>
                 </div>
             </div>
         </div>

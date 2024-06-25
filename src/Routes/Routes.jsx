@@ -19,6 +19,9 @@ import Statistics from "../pages/Dashboard/Admin/Statistics/Statistics";
 import AllParcels from "../pages/Dashboard/Admin/AllParcels/AllParcels";
 import AllDeliveryMan from "../pages/Dashboard/Admin/AllDeliveryMan/AllDeliveryMan";
 import Payment from "../pages/Dashboard/Payment/Payment";
+import AdminRoute from "./AdminRoute";
+import MyDeliveryList from "../pages/Dashboard/DeliveryMan/MyDeliveryList/MyDeliveryList";
+import MyReviews from "../pages/Dashboard/DeliveryMan/MyReviews/MyReviews";
 
 
 
@@ -56,7 +59,7 @@ const router = createBrowserRouter([
     </PrivateRoute>,
     children: [
       {
-        index: true,
+        path: '',
         element: <Welcome></Welcome>
       },
       {
@@ -78,7 +81,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'statistics',
-        element: <Statistics></Statistics>
+        element: <AdminRoute><Statistics></Statistics></AdminRoute>
       },
       {
         path: 'allParcels',
@@ -97,6 +100,15 @@ const router = createBrowserRouter([
         path: 'payment',
         element: <Payment></Payment>
       },
+      //delivery man
+      {
+        path: 'myDeliveryList',
+        element: <MyDeliveryList></MyDeliveryList>
+      },
+      {
+        path: 'myReviews',
+        element: <MyReviews></MyReviews>
+      }
     ]
   }
 ]);

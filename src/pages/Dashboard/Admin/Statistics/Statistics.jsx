@@ -1,52 +1,100 @@
-import { useQuery } from '@tanstack/react-query';
-import useAxiosSecure from '../../../../Hooks/useAxiosSecure';
-import { useState } from 'react';
-import Chart from 'react-apexcharts';
-import SectionTitle from '../../../../pages/Shared/SectionTitle/SectionTile';
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
+// import { SiteDetailsContext } from "@/providers/SiteDetailsProvider";
+import { useQuery } from "@tanstack/react-query";
+// import { useContext } from "react";
+import Chart from "react-apexcharts";
+import { Helmet } from "react-helmet-async";
 
 
 const Statistics = () => {
 
-    const axiosSecure = useAxiosSecure()
-    //   Fetch users Data
-    const {
-        data: booking = [],
-    } = useQuery({
-        queryKey: ['booking'],
+    // const { siteName } = useContext(SiteDetailsContext);
+    const axiosSecure = useAxiosSecure();
+
+    const { data: statistics = [], isLoading } = useQuery({
+        queryKey: ['statistics'],
         queryFn: async () => {
-            const { data } = await axiosSecure(`/bookings`)
-            return data
-        },
+            const res = await axiosSecure.get(`/statistics`);
+            return res.data;
+        }
     })
-    // const {bookingDate} = booking
 
-    console.log(booking)
+    const { bookings, delivered, dates } = statistics;
 
-    const [chartOptions, setChartOptions] = useState({
+    const bookingOptions = {
         chart: {
-            id: 'basic-bar-chart',
+            id: 'bookings-bar-chart',
         },
         xaxis: {
-            categories: ['10-06-2024', '11-06-2024','12-06-2024',],
+            categories: dates,
         },
-    });
+        title: {
+            text: 'Bookings by Date',
+        },
+    };
 
-    const [chartSeries, setChartSeries] = useState([
-        
-        {
-            name: 'Series 1',
-            data: [1, 3, 2],
+    const deliveredOptions = {
+        chart: {
+            id: 'delivered-line-chart',
         },
-    ]);
+        xaxis: {
+            categories: dates,
+        },
+        title: {
+            text: 'Booked vs Delivered Parcels',
+        },
+    };
+
+    const bookingSeries = [
+        {
+            name: 'Bookings',
+            data: bookings,
+        },
+    ];
+
+    const deliveredSeries = [
+        {
+            name: 'Booked',
+            data: bookings,
+        },
+        {
+            name: 'Delivered',
+            data: delivered,
+        },
+    ];
+
     return (
-        <div>
-            <SectionTitle heading={'Statistics'}></SectionTitle>
-            <Chart
-                options={chartOptions}
-                series={chartSeries}
-                type="bar"
-                width="500"
-            />
+        <div className="p-24">
+            <Helmet>
+                <title>Statistics - FlyPoint</title>
+            </Helmet>
+            <div className="mb-4 flex md:flex-row flex-col md:justify-between justify-center md:text-left text-center items-center">
+                <h1 className="text-xl font-bold">Statistics</h1>
+            </div>
+            <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
+                {
+                    isLoading ?
+                        <div className="flex justify-center my-10"><span className="loading loading-lg loading-spinner text-primary"></span></div>
+                        :
+
+                        <>
+                            <div>
+                                <Chart
+                                    options={bookingOptions}
+                                    series={bookingSeries}
+                                    type="bar"
+                                />
+                            </div>
+                            <div>
+                                <Chart
+                                    options={deliveredOptions}
+                                    series={deliveredSeries}
+                                    type="line"
+                                />
+                            </div>
+                        </>
+                }
+            </div>
         </div>
     );
 };

@@ -9,7 +9,7 @@ const AdminMenu = () => {
             {/* Statistics */}
             <MenuItem label={'Statistics'} address={'statistics'} icon={IoIosStats }></MenuItem>
             
-            <MenuItem label={'All Parcel'} address={'allParcels'} icon={FaBoxOpen}></MenuItem>
+            <MenuItem label={'All Parcels'} address={'allParcels'} icon={FaBoxOpen}></MenuItem>
 
             {/* My Parcels */}
             <MenuItem label={'All Users'} address={'allUsers'} icon={IoMenuSharp}></MenuItem>

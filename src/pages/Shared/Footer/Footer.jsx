@@ -4,12 +4,12 @@ import { FaFacebook, FaTwitter, FaInstagram, } from "react-icons/fa";
 
 const Footer = () => {
     return (
-        <div className=" p-10 bg-base-200 text-base-content grid ">
+        <div className="mt-24 p-10 bg-base-200 text-base-content grid ">
 
             <footer className="footer  bg-base-200 text-base-content grid ">
                 <aside className="flex flex-col">
                     <div className="flex items-center gap-3 ">
-                        <img className="w-20 pt-2" src='/src/assets/fly-logo-2.png' alt="" />
+                        <img className="w-20 pt-2" src='fly-logo-2.png' alt="" />
                         <div className=" workSans text-3xl font-bold gap-0">
                             <Link to={'/'} className="gap-0 items-center">
                                 Fly<span className="font-normal">Point</span>

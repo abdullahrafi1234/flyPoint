@@ -28,6 +28,8 @@ const Signup = () => {
                             name: data.name,
                             email: data.email,
                             role: data.register,
+                            photo: data.photo,
+                            phone: data.phone
                         }
                         axiosPublic.post('/users', userInfo)
                             .then(res => {
@@ -63,6 +65,12 @@ const Signup = () => {
                                     <span className="label-text">Name</span>
                                 </label>
                                 <input {...register('name', { required: true })} type="text" placeholder="Fly Point" className="input input-bordered" required />
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Phone</span>
+                                </label>
+                                <input {...register('phone', { required: true })} type="text" placeholder="012345678912" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
