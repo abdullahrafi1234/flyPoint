@@ -1,8 +1,17 @@
-# React + Vite
+# FlyPoint 
+-Live Link: https://fly-point-53b64.web.app
+-
+#### Features:
+-  User Authentication and Authorization: Implemented a secure authentication system using JWT for session management, ensuring safe and smooth user login and registration processes.
+-  Product Management: Created a dynamic product catalog with features for adding, updating, and deleting products, complete with image uploads and real-time inventory tracking.
+3. Shopping Cart and Checkout: Developed a fully functional shopping cart that allows users to add, remove, and modify items, and a checkout process integrated with Stripe for secure payment processing.
+4. Responsive Design: Utilized modern CSS frameworks like Tailwind CSS to ensure the website is fully responsive and provides an optimal user experience across all devices.
+5. Real-time Notifications: Integrated real-time notifications using WebSockets to alert users about order updates and promotional offers.
+6. Comprehensive Admin Dashboard: Built a robust admin dashboard with analytics and reporting features to help administrators monitor sales, user activities, and manage site content efficiently.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+#### Technologies:
+ReactJS, JavaScript, TailwindCSS, Tanstack Query, Firebase, MongoDB, Express.js
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+--npm packages
+1.Lottie-react
+2.Framer-motion
