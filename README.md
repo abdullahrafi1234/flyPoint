@@ -1,7 +1,7 @@
 
 # FlyPoint  - Delivery Management System
 
-ParcelPro is a web application designed to manage parcel deliveries efficiently. This system allows users to book parcels, track delivery statuses, and manage delivery personnel. The project integrates various modern web technologies including React, DaisyUI, React Leaflet, and ExpressJS, with MongoDB as the database.
+FlyPoint is a web application designed to manage parcel deliveries efficiently. This system allows users to book parcels, track delivery statuses, and manage delivery personnel. The project integrates various modern web technologies including React, DaisyUI, React Leaflet, and ExpressJS, with MongoDB as the database.
 
 ## Live Site
 
